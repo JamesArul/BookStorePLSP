@@ -1,0 +1,7 @@
+package com.jpro.philosophibackend.domain;
+
+public class Cart {
+	
+	private int cartID;
+
+}

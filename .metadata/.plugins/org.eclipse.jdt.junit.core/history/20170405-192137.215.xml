@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserTestCase" project="PhilosophiBackEnd" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="com.jpro.philosophibackend.testcase.UserTestCase" time="0.485">
+    <testcase name="addUserTestCase" classname="com.jpro.philosophibackend.testcase.UserTestCase" time="0.172"/>
+    <testcase name="editUserTestCase" classname="com.jpro.philosophibackend.testcase.UserTestCase" time="0.314"/>
+  </testsuite>
+</testrun>

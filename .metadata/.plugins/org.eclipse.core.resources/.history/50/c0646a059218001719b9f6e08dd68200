@@ -1,0 +1,24 @@
+package com.jpro.philosophibackend.dao;
+
+import java.util.List;
+
+import com.jpro.philosophibackend.domain.Category;
+import com.jpro.philosophibackend.domain.Supplier;
+
+public interface SupplierDAO {
+	
+	public List<Supplier> getAllCategory();
+	
+	public boolean saveSupplier(Supplier category);
+	
+	public boolean updateSupplier(Supplier category);
+	
+	public boolean deleteSupplier(Supplier category);
+	
+	public boolean deleteSupplier(String categoryId);
+	
+	public Category getSupplierById(String categoryId);
+	
+	public Category getSupplierByName(String categoryName);
+
+}

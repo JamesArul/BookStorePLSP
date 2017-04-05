@@ -1,0 +1,10 @@
+package com.jpro.philosophibackend.dao;
+
+import java.util.List;
+
+import com.jpro.philosophibackend.domain.Category;
+
+public interface CategoryDAO {
+
+	public List<Category> getAllCategory();
+}

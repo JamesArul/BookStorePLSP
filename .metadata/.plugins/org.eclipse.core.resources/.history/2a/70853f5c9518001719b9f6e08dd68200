@@ -1,0 +1,10 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@EnableTransactionManagement
+@Repository("categoryDAO")
+public class CategoryDAOImpl {
+
+}

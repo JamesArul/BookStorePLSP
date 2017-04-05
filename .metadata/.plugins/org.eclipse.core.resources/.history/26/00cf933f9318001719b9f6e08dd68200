@@ -1,0 +1,108 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.jpro.philosophibackend.dao.CartDAO;
+import com.jpro.philosophibackend.domain.Cart;
+import com.jpro.philosophibackend.domain.Product;
+
+@EnableTransactionManagement
+@Repository("cartDAO")
+public class CartDAOImpl implements CartDAO {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public CartDAOImpl(SessionFactory sessionFactory) {
+		
+		this.sessionFactory=sessionFactory;		
+	}
+
+	public boolean saveCart(Cart cart) {
+		try
+		{
+		sessionFactory.getCurrentSession().save(cart);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateCart(Cart cart) {
+		try
+		{
+		sessionFactory.getCurrentSession().update(cart);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean deleteCart(Cart cart) {
+		try
+		{
+		sessionFactory.getCurrentSession().delete(cart);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean deleteCart(int cartId) {
+		try {
+			sessionFactory.getCurrentSession().delete(getCartById(cartId));
+			return true;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public Cart getCartById(int cartId) {
+		return (Cart) sessionFactory.getCurrentSession().createQuery("from Cart where cartID ='"+ cartId +"'" ).uniqueResult();
+	}
+
+	public List<Cart> getAllCart() {
+		return sessionFactory.getCurrentSession().createQuery("from Cart").list();
+	}
+
+	public List<Cart> getCartsOfUser(String userId) {
+		return   sessionFactory.getCurrentSession().createQuery("from Cart where userId='"+userId+"'" ).list();
+	}
+
+	public String getCartStatus(int cartId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Product> getProductsInCart(int cartId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getTotalAmount(int cartID) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void generateBill(int cartId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

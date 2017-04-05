@@ -1,0 +1,42 @@
+package com.jpro.philosophibackend.testcase;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.jpro.philosophibackend.dao.ProductDAO;
+import com.jpro.philosophibackend.domain.Product;
+import junit.framework.Assert;
+
+public class ProductTestCase {
+	
+	@Autowired
+	private static Product product;
+	
+	@Autowired
+	private static ProductDAO productDAO;
+	
+	@BeforeClass
+	public static void init()//give any name for method
+	{
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
+		context.scan("com.jpro.philosophibackend");
+		context.refresh();
+		product=(Product) context.getBean("product");
+		productDAO =(ProductDAO) context.getBean("productDAO");
+	}
+
+	@Test
+	public void addProductTestCase() {
+		product.setProductId("MA1101");
+		product.setProductName("Engineering Mathematics 1");
+		product.setCategoryId("EE001");
+		boolean flag=productDAO.saveProduct(product);
+		Assert.assertEquals("addProductTestCase", true, flag);
+		
+	}
+
+}

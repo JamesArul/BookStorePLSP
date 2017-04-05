@@ -1,0 +1,46 @@
+package com.jpro.philosophibackend.testcase;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.jpro.philosophibackend.dao.SupplierDAO;
+import com.jpro.philosophibackend.domain.Supplier;
+
+import junit.framework.Assert;
+
+public class SupplierTestCase {
+	
+
+	@Autowired
+	private static Supplier supplier;
+	
+	@Autowired
+	private static SupplierDAO supplierDAO;
+	
+	@BeforeClass
+	public static void init()//give any name for method
+	{
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
+		context.scan("com.jpro.philosophibackend");
+		context.refresh();
+		
+		supplier=(Supplier) context.getBean("supplier");
+		supplierDAO =(SupplierDAO) context.getBean("supplierDAO");
+	}
+
+	@Test
+	public void createSupplierTestCase()
+	{
+		supplier.setSupplierId("S001");
+		supplier.setSupplierName("Supplier 1");
+		supplier.setSupplierAddress("Nungambakkam");
+		boolean flag=supplierDAO.saveSupplier(supplier);
+		Assert.assertEquals("createSupplierTestCase", true, flag);
+		
+	}
+
+}

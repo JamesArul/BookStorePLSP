@@ -1,0 +1,101 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.jpro.philosophibackend.dao.UserDAO;
+import com.jpro.philosophibackend.domain.Cart;
+import com.jpro.philosophibackend.domain.User;
+
+@EnableTransactionManagement
+@Repository("userDAO")
+public class UserDAOImpl implements UserDAO {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public UserDAOImpl(SessionFactory sessionFactory) {
+		
+		this.sessionFactory=sessionFactory;		
+	}
+
+	@Transactional
+	public List<User> getAlluser() {
+		return sessionFactory.getCurrentSession().createQuery("from User").list();
+	}
+
+	@Transactional
+	public boolean saveUser(User user) {
+		try
+		{
+		sessionFactory.getCurrentSession().save(user);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}	
+	}
+
+	@Transactional
+	public boolean updateUser(User user) {
+		try
+		{
+		sessionFactory.getCurrentSession().update(user);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Transactional
+	public boolean deleteUser(User user) {
+		try
+		{
+		sessionFactory.getCurrentSession().delete(user);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Transactional
+	public boolean deleteUser(String userId) {
+		try {
+			sessionFactory.getCurrentSession().delete(getUserById(userId));
+			return true;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Transactional
+	public User getUserById(String userId) {
+		return (User) sessionFactory.getCurrentSession().createQuery("from User where userID ='"+ userId +"'" ).uniqueResult();
+	}
+
+	@Transactional
+	public User getUserByName(String userName) {
+		return (User) sessionFactory.getCurrentSession().createQuery("from User where userName ='"+ userName +"'" ).uniqueResult();
+	}
+
+	@Transactional
+	public List<Cart> getCartsOfUser(String userId) {
+		return sessionFactory.getCurrentSession().createQuery("from Cart where userId='"+userId+"'").list();
+	}
+}

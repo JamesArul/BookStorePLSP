@@ -1,0 +1,9 @@
+package com.jpro.philosophibackend.dao;
+
+import com.jpro.philosophibackend.domain.User;;
+
+public interface UserDAO {
+	
+	public List<User> getAlluser();
+
+}

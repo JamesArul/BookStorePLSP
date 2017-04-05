@@ -1,0 +1,50 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.jpro.philosophibackend.dao.ProductDAO;
+import com.jpro.philosophibackend.domain.Product;
+
+@EnableTransactionManagement
+@Repository("productDAO")
+public class ProductDAOImpl implements ProductDAO {
+
+	public List<Product> getAllProducts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean saveProduct(Product product) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateProduct(Product product) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteProduct(Product product) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteProduct(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Product getProductById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Product getProductByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

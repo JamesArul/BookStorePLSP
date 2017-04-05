@@ -1,0 +1,65 @@
+package com.jpro.philosophibackend.testcase;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.jpro.philosophibackend.dao.CategoryDAO;
+import com.jpro.philosophibackend.domain.Category;
+
+import junit.framework.Assert;
+
+public class CategoryTestCase {
+	
+	@Autowired
+	private static Category category;
+	
+	@Autowired
+	private static CategoryDAO categoryDAO;
+	
+	@BeforeClass
+	public static void init()//give any name for method
+	{
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
+		context.scan("com.jpro.philosophibackend");
+		context.refresh();
+		
+		category=(Category) context.getBean("category");
+		categoryDAO =(CategoryDAO) context.getBean("categoryDAO");
+	}
+
+	
+	@Test
+	public void createCategoryTestCase()//Category save success
+	{
+		category.setCategoryId("Test2");
+		category.setCategoryName("Engineering-Other");
+		category.setCategoryDescription("Engineering related books of EEE ,ECE and Mech ");
+		boolean flag=categoryDAO.saveCategory(category);
+		Assert.assertEquals("createCategoryTestCase", true, flag);
+	}
+	
+	/*
+	@Test
+	public void editCategoryTestCase()//Category efit success
+	{
+		category.setCategoryId("EE001");
+		category.setCategoryDescription("Engineering related books of CSE and IT ");
+		boolean flag=categoryDAO.updateCategory(category);
+		Assert.assertEquals("editCategoryTestCase", true, flag);
+	}
+	*/
+	/*
+	@Test
+	public void deleteCategoryTestCase()//getCategoryById success, deleteCategory(Category category) success, deleteCategory(String id) success
+	{
+		//category=categoryDAO.getCategoryById("Test2");
+		//boolean flag=categoryDAO.deleteCategory(category);
+		boolean flag=categoryDAO.deleteCategory("Test2");
+		Assert.assertEquals("editCategoryTestCase", true, flag);
+	}
+	*/
+}

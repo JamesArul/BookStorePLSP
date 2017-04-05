@@ -1,0 +1,70 @@
+package com.jpro.philosophibackend.domain;
+
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Table(name="Supplier")
+@Entity
+@Component
+public class Supplier {
+	
+	@Id
+	private String supplierId;
+	
+	private String supplierName;
+	
+	private String supplierAddress;
+	
+	private String supplierDescription;
+	
+	@OneToMany(mappedBy="supplier",fetch = FetchType.EAGER)
+	private Set<Product> products;
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public String getSupplierAddress() {
+		return supplierAddress;
+	}
+
+	public void setSupplierAddress(String supplierAddress) {
+		this.supplierAddress = supplierAddress;
+	}
+
+	public String getSupplierDescription() {
+		return supplierDescription;
+	}
+
+	public void setSupplierDescription(String supplierDescription) {
+		this.supplierDescription = supplierDescription;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+	
+}

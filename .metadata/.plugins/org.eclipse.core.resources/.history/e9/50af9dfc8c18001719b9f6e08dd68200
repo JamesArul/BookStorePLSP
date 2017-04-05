@@ -1,0 +1,5 @@
+package com.jpro.philosophibackend.domain;
+
+public class User {
+
+}

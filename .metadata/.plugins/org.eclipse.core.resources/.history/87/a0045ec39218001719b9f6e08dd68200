@@ -1,0 +1,7 @@
+package com.jpro.philosophibackend.dao.impl;
+
+@EnableTransactionManagement
+@Repository("cartDAO")
+public class CartDAOImpl {
+
+}

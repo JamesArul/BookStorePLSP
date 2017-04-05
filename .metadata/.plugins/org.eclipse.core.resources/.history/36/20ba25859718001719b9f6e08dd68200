@@ -1,0 +1,65 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.jpro.philosophibackend.dao.UserDAO;
+import com.jpro.philosophibackend.domain.Cart;
+import com.jpro.philosophibackend.domain.User;
+
+public class UserDAOImpl implements UserDAO {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public SupplierDAOImpl(SessionFactory sessionFactory) {
+		
+		this.sessionFactory=sessionFactory;		
+	}
+
+	@Transactional
+	public List<User> getAlluser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean saveUser(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateUser(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteUser(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteUser(String userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public User getUserById(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User getUserByName(String userName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Cart> getCartsOfUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

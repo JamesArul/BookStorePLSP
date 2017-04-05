@@ -1,0 +1,28 @@
+package com.jpro.philosophibackend.domain;
+
+import java.beans.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
+
+public class Product {
+	
+	private String productId;
+	
+	private String productName;
+	
+	private String categoryId;
+	
+	private String supplierId;
+	
+	private String productDesc;
+	
+	private int productQty;
+	
+	private int productQtyinCart;
+	
+	private int productCost;
+	
+	@Transient
+	private MultipartFile productImage;
+
+}

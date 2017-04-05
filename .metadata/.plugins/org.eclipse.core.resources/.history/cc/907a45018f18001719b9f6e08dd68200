@@ -1,0 +1,32 @@
+package com.jpro.philosophibackend.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Table(name="Cart")
+@Entity
+@Component
+public class Cart {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int cartID;
+	
+	private String userId;
+	
+	@ManyToOne
+	@JoinColumn(name = "userId", nullable = false, updatable = false, insertable = false)
+	private User user;
+	
+	private String delivery_name;
+	
+	private long user_contact;
+
+}

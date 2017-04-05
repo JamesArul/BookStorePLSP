@@ -1,0 +1,36 @@
+package com.jpro.philosophibackend.testcase;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.jpro.philosophibackend.dao.ProductDAO;
+import com.jpro.philosophibackend.domain.Product;
+
+public class UserTestCase {
+	
+	@Autowired
+	private static User user;
+	
+	@Autowired
+	private static UserDAO userDAO;
+	
+	@BeforeClass
+	public static void init()//give any name for method
+	{
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
+		context.scan("com.jpro.philosophibackend");
+		context.refresh();
+		user=(Product) context.getBean("product");
+		productDAO =(ProductDAO) context.getBean("productDAO");
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

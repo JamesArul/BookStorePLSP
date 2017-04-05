@@ -1,0 +1,18 @@
+package com.jpro.philosophibackend.domain;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ProductOfCart {
+	
+	private String productId;
+	
+	private String productName;
+	
+	private int productQuantity;
+	
+	private int productCost;
+	
+	
+
+}

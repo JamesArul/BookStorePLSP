@@ -1,0 +1,51 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.jpro.philosophibackend.dao.SupplierDAO;
+import com.jpro.philosophibackend.domain.Category;
+import com.jpro.philosophibackend.domain.Supplier;
+
+@EnableTransactionManagement
+@Repository("supplierDAO")
+public class SupplierDAOImpl implements SupplierDAO {
+
+	public List<Supplier> getAllCategory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean saveSupplier(Supplier supplier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateSupplier(Supplier supplier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteSupplier(Supplier supplier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteSupplier(String supplierId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Category getSupplierById(String supplierId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Category getSupplierByName(String supplierName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

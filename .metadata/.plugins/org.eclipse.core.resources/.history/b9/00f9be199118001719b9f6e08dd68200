@@ -1,0 +1,11 @@
+package com.jpro.philosophibackend.dao;
+
+import java.util.List;
+
+import com.jpro.philosophibackend.domain.Cart;
+
+public interface CartDAO {
+	
+	public List<Cart> getAllCart();
+
+}

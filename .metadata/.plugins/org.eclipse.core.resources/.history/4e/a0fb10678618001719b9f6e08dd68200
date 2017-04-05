@@ -1,0 +1,15 @@
+package com.jpro.philosophibackend.domain;
+
+public class Product {
+	
+	private String productId;
+	
+	private String productName;
+	
+	private String categoryId;
+	
+	private String supplierId;
+	
+	private String productDesc;
+
+}

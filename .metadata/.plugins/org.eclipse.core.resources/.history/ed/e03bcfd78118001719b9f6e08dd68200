@@ -1,0 +1,13 @@
+package com.jpro.philosophibackend.domain;
+
+public class Address {
+	
+	private String street;
+	
+	private String city;
+	
+	private String state;
+	
+	private int pincode;
+
+}

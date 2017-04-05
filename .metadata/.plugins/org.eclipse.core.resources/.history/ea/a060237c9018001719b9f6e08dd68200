@@ -1,0 +1,35 @@
+package com.jpro.philosophibackend.domain;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Table(name="User")
+@Entity
+@Component
+public class User {
+	
+	@Id
+	private String userID;
+	
+	private String userName;
+	
+	private String userPassword;
+	
+	private String userEmail;
+	
+	private String userRole;
+	
+	private long userContact;
+	
+	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
+	private Set<Cart> carts=new HashSet<Cart>();
+
+}

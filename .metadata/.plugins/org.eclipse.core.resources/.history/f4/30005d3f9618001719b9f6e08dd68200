@@ -1,0 +1,77 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.jpro.philosophibackend.dao.ProductDAO;
+import com.jpro.philosophibackend.domain.Product;
+
+@EnableTransactionManagement
+@Repository("productDAO")
+public class ProductDAOImpl implements ProductDAO {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public ProductDAOImpl(SessionFactory sessionFactory) {
+		
+		this.sessionFactory=sessionFactory;		
+	}
+
+	public List<Product> getAllProducts() {
+		return sessionFactory.getCurrentSession().createQuery("from Product").list();
+	}
+
+	public boolean saveProduct(Product product) {
+		try
+		{
+			//getcurrentSession opens the existing session
+			//opencurrentSession creates a new session if not present
+		sessionFactory.getCurrentSession().save(product);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateProduct(Product product) {
+		try
+		{
+		sessionFactory.getCurrentSession().update(product);
+		return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean deleteProduct(Product product) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteProduct(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Product getProductById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Product getProductByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

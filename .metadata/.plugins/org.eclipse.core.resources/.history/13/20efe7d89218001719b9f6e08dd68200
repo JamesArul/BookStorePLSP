@@ -1,0 +1,81 @@
+package com.jpro.philosophibackend.dao.impl;
+
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.jpro.philosophibackend.dao.CartDAO;
+import com.jpro.philosophibackend.domain.Cart;
+import com.jpro.philosophibackend.domain.Product;
+
+@EnableTransactionManagement
+@Repository("cartDAO")
+public class CartDAOImpl implements CartDAO {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public CartDAOImpl(SessionFactory sessionFactory) {
+		
+		this.sessionFactory=sessionFactory;		
+	}
+
+	public boolean saveCart(Cart cart) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateCart(Cart cart) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteCart(Cart cart) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteCart(int cartId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Cart getCartById(int cartId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Cart> getAllCart() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Cart> getCartsOfUser(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCartStatus(int cartId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Product> getProductsInCart(int cartId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getTotalAmount(int cartID) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void generateBill(int cartId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

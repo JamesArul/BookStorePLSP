@@ -1,0 +1,21 @@
+package com.jpro.philosophibackend.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Table(name="User")
+@Entity
+@Component
+public class User {
+	
+	@Id
+	private String userID;
+	
+	private String userName;
+	
+	private String userPassword;
+
+}
