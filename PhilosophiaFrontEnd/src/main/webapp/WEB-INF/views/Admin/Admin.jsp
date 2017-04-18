@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,115 +10,45 @@
 <script src="Resources/Bootstrap/bootstrap.js"></script>
 <script src="Resources/JQuery/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-function pFunc()
+function manageCategories()
 {
-	var pform_value=document.getElementById('sel1').value;
-	if(pform_value=="ProductAdd")
-	{
-	window.location="selProductAdd";
-	}
-	if(pform_value=="ProductEdit")
-	{
-	window.location="selProductEdit";
-	}
-	if(pform_value=="ProductDelete")
-	{
-	window.location="selProductDelete";
-	}
-	if(pform_value=="ProductView")
-	{
-	window.location="selProductView";
-	}	
+	window.location="selManageCategories";
 }
-function cFunc()
+function manageProducts()
 {
-	var cform_value=document.getElementById('sel2').value;
-	if(cform_value=="CategoryAdd")
-	{
-	window.location="selCategoryAdd";
-	}
-	if(cform_value=="CategoryEdit")
-	{
-	window.location="selCategoryEdit";
-	}
-	if(cform_value=="CategoryDelete")
-	{
-	window.location="selCategoryDelete";
-	}
-	if(cform_value=="CategoryView")
-	{
-	window.location="selCategoryView";
-	}
+	window.location="selManageProducts";
 }
-function sFunc()
+function manageSuppliers()
 {
-	var sform_value=document.getElementById('sel3').value;
-	if(sform_value=="SupplierAdd")
-	{
-	window.location="selSupplierAdd";
-	}
-	if(sform_value=="SupplierEdit")
-	{
-	window.location="selSupplierEdit";
-	}
-	if(sform_value=="SupplierDelete")
-	{
-	window.location="selSupplierDelete";
-	}
-	if(sform_value=="SupplierView")
-	{
-	window.location="selSupplierView";
-	}	
+	window.location="selManageSuppliers";
 }
 </script>
+<title>Admin</title>
 </head>
 <body>
 <jsp:include page="..\MainHeader.jsp"></jsp:include>
-<div class="container">        
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Category</th>
-        <th>Supplier</th>
-      </tr>
-    </thead>
-    <div class="form-group">
-    <tbody>
-      <tr>
-        <td>
-      <select class="form-control" id="sel1" onchange="pFunc()">
-      	<option>--Select--</option>
-        <option value="ProductAdd">Add</option>
-        <option value="ProductEdit">Edit</option>
-        <option value="ProductDelete">Delete</option>
-        <option value="ProductView">View</option>
-      </select>
-        </td>
-        <td>
-      <select class="form-control" id="sel2" onchange="cFunc()">
-      <option>--Select--</option>
-        <option value="CategoryAdd">Add</option>
-        <option value="CategoryEdit">Edit</option>
-        <option value="CategoryDelete">Delete</option>
-        <option value="CategoryView">View</option>
-      </select>
-        </td>
-        <td>
-        <select class="form-control" id="sel3" onchange="sFunc()">
-        <option>--Select--</option>
-        <option value="SupplierAdd">Add</option>
-        <option value="SupplierEdit">Edit</option>
-        <option value="SupplierDelete">Delete</option>
-        <option value="SupplierView">View</option>
-      </select>
-        </td>
-      </tr>
-      
-    </tbody>
-    </div>
-  </table>
+<center>
+<div class="row">
+<div class="col-sm-4">
+<button type="button" class="btn" onclick="manageCategories()">Manage Categories</button>
 </div>
+<div class="col-sm-4">
+<button type="button" class="btn" onclick="manageProducts()">Manage Products</button>
+</div>
+<div class="col-sm-4">
+<button type="button" class="btn" onclick="manageSuppliers()">Manage Suppliers</button>
+</div>
+</div>
+</center>
+<c:if test="${not empty CategoryManage }">
+<jsp:include page="Categories.jsp"></jsp:include>
+</c:if>
+<c:if test="${not empty SuppierManage }">
+<jsp:include page="Suppliers.jsp"></jsp:include>
+</c:if>
+<c:if test="${not empty ProductManage }">
+<jsp:include page="Products.jsp"></jsp:include>
+</c:if>
 <jsp:include page="..\MainFooter.jsp"></jsp:include>
 </body>
 </html>

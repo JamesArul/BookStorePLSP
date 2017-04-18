@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -36,7 +36,7 @@ public class User {
 	@Column(columnDefinition="varchar(10) default 'ROLE_USER'")
 	private String userRole;
 	
-	@Size(min=10,max=10)
+	@Min(value=1000000000)
 	private long userContact;
 	
 	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)

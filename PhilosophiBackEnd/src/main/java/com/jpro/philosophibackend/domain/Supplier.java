@@ -23,7 +23,7 @@ public class Supplier {
 	@Id
 	private String supplierId;
 	
-	@Size(min=4,max=15)
+	@Size(min=4,max=30)
 	private String supplierName;
 	
 	@Embedded

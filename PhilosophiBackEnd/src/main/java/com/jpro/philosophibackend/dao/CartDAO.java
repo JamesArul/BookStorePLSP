@@ -3,7 +3,7 @@ package com.jpro.philosophibackend.dao;
 import java.util.List;
 
 import com.jpro.philosophibackend.domain.Cart;
-import com.jpro.philosophibackend.domain.Product;
+import com.jpro.philosophibackend.domain.ProductOfCart;;
 
 public interface CartDAO {
 	
@@ -23,12 +23,14 @@ public boolean saveCart(Cart cart);
 	
 	public String getCartStatus(int cartId);
 	
-	public List<Product> getProductsInCart(int cartId);
+	public List<ProductOfCart> getProductsInCart(int cartId);
 	
 	public int getTotalAmount(int cartID);
 	
 	public void generateBill(int cartId);
 	
 	public boolean removeProductFromCart(String productID, int cartID);
+	
+	public boolean updateTotalCost(int cartId,int newTotalCost);
 
 }

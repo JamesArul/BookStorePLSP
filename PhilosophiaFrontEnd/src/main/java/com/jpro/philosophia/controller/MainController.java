@@ -1,17 +1,30 @@
 package com.jpro.philosophia.controller;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jpro.philosophibackend.dao.CartDAO;
+import com.jpro.philosophibackend.dao.ProductDAO;
+import com.jpro.philosophibackend.domain.Product;
+
 @Controller
 public class MainController {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private ProductDAO productDAO;
+	
+	@Autowired
+	private CartDAO cartDAO;
 	
 	@RequestMapping("/")
 	public ModelAndView show()
@@ -47,22 +60,21 @@ public class MainController {
 	@RequestMapping("/goAdmin")
 	public ModelAndView showAdmin()
 	{
-		ModelAndView mv;
-		if(session.getAttribute("AdminMsg")!=null)
-		{
-		mv=new ModelAndView("/Admin/Admin");
-		}
-		else
-		{
-			mv=new ModelAndView("/Error");
-		}
+		ModelAndView mv=new ModelAndView("/Admin/Admin");
+		mv.addObject("CategoryManage", null);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("ProductManage", null);
 		return mv;
 	}
 	
 	@RequestMapping("/goProdView")
 	public ModelAndView showProducts()
 	{
-		ModelAndView mv=new ModelAndView("/Products");
+		ModelAndView mv=new ModelAndView("/ViewProducts");
+		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
+		List<Product> prodList=productDAO.getAllProducts();
+		mv.addObject("prList", prodList);
+		mv.addObject("path", path);
 		return mv;
 	}
 

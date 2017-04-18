@@ -9,6 +9,7 @@
 <body>
 <jsp:include page="MainHeader.jsp"></jsp:include>
 <center><h1>Error</h1></center>
+<center><h2>${error}</h2></center>
 <p>${errorMsg}</p>
 <jsp:include page="MainFooter.jsp"></jsp:include>
 </body>

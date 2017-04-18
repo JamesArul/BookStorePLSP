@@ -7,21 +7,22 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
 @Table(name="Cart")
@@ -42,7 +43,7 @@ public class Cart {
 	@Size(min=5,max=25)
 	private String delivery_name;
 	
-	@Size(min=10)
+	@Min(value=1000000000)
 	private long user_contact;
 	
 	private int totalCost;

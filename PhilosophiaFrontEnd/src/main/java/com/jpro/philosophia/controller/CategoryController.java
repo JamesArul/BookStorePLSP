@@ -23,80 +23,90 @@ public class CategoryController {
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
-	/*
-	@RequestMapping("/selCategoryAdd")
-	public ModelAndView showCategorydd()
+	
+	@RequestMapping("/selManageCategories")
+	public ModelAndView showCategoryManage()
 	{
-		log.debug("Start of go to Category add");
-		ModelAndView mv=new ModelAndView("/CategoryAdd","command", new Category());//"/SupplierAdd","command", new Supplier());
-		log.debug("End of go to Category add");
+		log.debug("Start of showCategoryManage");
+		List<Category> categoryList=categoryDAO.getAllCategory();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
+		mv.addObject("cgList" ,categoryList);
+		mv.addObject("CategoryManage","CategoryManagement");
+		mv.addObject("editCategoryMsg", null);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("ProductManage", null);
+		log.debug("End of showCategoryManage");
+		return mv;
+	}
+	
+	@RequestMapping("/findCategory")
+	public ModelAndView findCategory(@RequestParam("ctgEditID") String cgID)
+	{
+		log.debug("Start of findCategory");
+		List<Category> categoryList=categoryDAO.getAllCategory();
+		Category ctgFound=categoryDAO.getCategoryById(cgID);
+		log.debug("Category Found");
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
+		mv.addObject("cgList" ,categoryList);
+		mv.addObject("CategoryManage","CategoryManagement");
+		mv.addObject("editCategoryMsg", "CategoryEditTrue");
+		mv.addObject("cgFound", ctgFound);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("ProductManage", null);
+		log.debug("End of findCategory");
+		return mv;
+	}
+	
+	@RequestMapping("/deleteCategory")
+	public ModelAndView deleteCategory(@RequestParam("ctgDeleteID") String cgID)
+	{
+		log.debug("Start of deleteCategory");
+		categoryDAO.deleteCategory(cgID);
+		List<Category> categoryList=categoryDAO.getAllCategory();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
+		mv.addObject("cgList" ,categoryList);
+		mv.addObject("CategoryManage","CategoryManagement");
+		mv.addObject("editCategoryMsg", null);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("ProductManage", null);
+		log.debug("End of deleteCategory");
 		return mv;
 	}
 	
 	@RequestMapping(value="/addCategory",  method = RequestMethod.POST)
 	public ModelAndView addCategoryFunction(@ModelAttribute Category category)
 	{
-		log.debug("Start of Category add");
+		log.debug("Start of addCategoryFunction");
 		categoryDAO.saveCategory(category);
-		ModelAndView mv= new ModelAndView("/Admin");
-		mv.addObject("msg", "Category ADDED");
-		log.debug("End of Category add");
-		return mv;
-	}
-	
-	@RequestMapping("/selCategoryEdit")
-	public ModelAndView showCategoryEdit(Map<String, Object> map)
-	{
-		log.debug("Start of Category edit");
-		List<Category> categList=categoryDAO.getAllCategory();
-		map.put("crList", categList );
-		ModelAndView mv=new ModelAndView("/CategoryEdit",map);
-		return mv;
-	}
-	
-	@RequestMapping("/findCategory")
-	public ModelAndView findCategory(@RequestParam("cID") String cgID, Map<String, Object> map)
-	{
-		Category category=categoryDAO.getCategoryById(cgID);
-		ModelAndView mv=new ModelAndView("/CategoryEdit2","command", new Category() );
-		mv.addObject("cgFound", category);
+		List<Category> categoryList=categoryDAO.getAllCategory();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
+		mv.addObject("cgList" ,categoryList);
+		mv.addObject("CategoryManage","CategoryManagement");
+		mv.addObject("editCategoryMsg", null);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("ProductManage", null);		
+		log.debug("End of addCategoryFunction");
 		return mv;
 	}
 	
 	@RequestMapping(value="/editCategory",  method = RequestMethod.POST)
-	public ModelAndView editCategoryFunction(@ModelAttribute Category category,@RequestParam("ctID") String cgID,@RequestParam("ctName") String cgName,@RequestParam("ctDesc") String cgDesc)
+	public ModelAndView editCategoryFunction(@RequestParam("ctID") String cgID,@RequestParam("categoryName") String cgName,@RequestParam("categoryDescription") String cgDesc)
 	{
+		log.debug("Start of editCategoryFunction");
+		Category category=new Category();
 		category.setCategoryId(cgID);
 		category.setCategoryName(cgName);
 		category.setCategoryDescription(cgDesc);
 		categoryDAO.updateCategory(category);
-		ModelAndView mv= new ModelAndView("/Admin");
-		mv.addObject("msg", "Category Edited");
+		List<Category> categoryList=categoryDAO.getAllCategory();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
+		mv.addObject("cgList" ,categoryList);
+		mv.addObject("CategoryManage","CategoryManagement");
+		mv.addObject("editCategoryMsg", null);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("ProductManage", null);
+		log.debug("End of editCategoryFunction");
 		return mv;
 	}
 	
-	@RequestMapping("/selCategoryDelete")
-	public ModelAndView deleteCategoryFunction()
-	{
-		ModelAndView mv=new ModelAndView("/CategoryDelete");
-		return mv;
-	}
-	
-	@RequestMapping("/deleteCategory")
-	public ModelAndView deleteCategory(@RequestParam("cID") String cgID)
-	{
-		categoryDAO.deleteCategory(cgID);
-		ModelAndView mv=new ModelAndView("/Admin");
-		return mv;
-	}
-	
-	@RequestMapping("/selCategoryView")
-	public ModelAndView viewCategory(Map<String, Object> map)
-	{
-		List<Category> categList=categoryDAO.getAllCategory();
-		map.put("cgList", categList );
-		ModelAndView mv=new ModelAndView("/CategoryView",map);
-		return mv;
-	}
-	*/
 }

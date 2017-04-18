@@ -1,16 +1,22 @@
 package com.jpro.philosophibackend.domain;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Embeddable
 public class Address {
 	
+	@Size(min=4,max=30)
 	private String street;
 	
+	@Size(min=4,max=20)
 	private String city;
 	
+	@Size(min=4,max=20)
 	private String state;
 	
+	@Min(100000)
 	private int pincode;
 
 	public String getStreet() {

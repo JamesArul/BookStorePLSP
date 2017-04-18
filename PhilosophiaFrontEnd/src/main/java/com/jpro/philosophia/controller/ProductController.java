@@ -4,7 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jpro.philosophibackend.dao.ProductDAO;
 import com.jpro.philosophibackend.domain.Product;
@@ -27,23 +29,66 @@ public class ProductController {
 	
 	@Autowired
 	private ProductDAO productDAO;
-	/*
-	@RequestMapping("/selProductAdd")
-	public ModelAndView showPAdd()
+	
+	@RequestMapping("selManageProducts")
+	public ModelAndView showProductManage()
 	{
-		log.debug("Start of go to Product add");
-		ModelAndView mv=new ModelAndView("/ProductAdd","command", new Product());
-		log.debug("End of go to Product add");
+		log.debug("Start of showProductManage");
+		List<Product> productList=productDAO.getAllProducts();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
+		mv.addObject("prList" ,productList);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("editProductMsg", null);
+		mv.addObject("CategoryManage", null);
+		mv.addObject("path","F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\");
+		mv.addObject("ProductManage", "ProductManagement");
+		log.debug("End of showProductManage");
 		return mv;
 	}
 	
-	
-	@RequestMapping(value="/addProduct",  method = RequestMethod.POST)
-	public ModelAndView addProductFunction(@ModelAttribute Product product)
+	@RequestMapping("/findProduct")
+	public ModelAndView findProduct(@RequestParam("prdEditID") String prID)
 	{
-		log.debug("Start of Product add");
+		log.debug("Start of findProduct");
+		List<Product> productList=productDAO.getAllProducts();
+		Product prdFound=productDAO.getProductById(prID);
+		log.debug("Product Found");
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
+		mv.addObject("prList" ,productList);
+		mv.addObject("prFound", prdFound);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("editProductMsg", "EditProduct True");
+		mv.addObject("CategoryManage", null);
+		mv.addObject("path","F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\");
+		mv.addObject("ProductManage", "ProductManagement");
+		log.debug("End of findProduct");
+		return mv;
+	}
+	
+	@RequestMapping("/deleteProduct")
+	public ModelAndView deleteProduct(@RequestParam("prdDeleteID") String prID)
+	{
+		log.debug("Start of deleteProduct");
+		productDAO.deleteProduct(prID);
+		List<Product> productList=productDAO.getAllProducts();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
+		mv.addObject("prList" ,productList);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("editProductMsg", null);
+		mv.addObject("CategoryManage", null);
+		mv.addObject("path","F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\");
+		mv.addObject("ProductManage", "ProductManagement");
+		log.debug("End of deleteProduct");
+		return mv;
+	}
+	
+	@RequestMapping(value="/addProduct")
+	public ModelAndView addProductFunction(@ModelAttribute Product product,HttpServletRequest request,RedirectAttributes attributes)
+	{
+		System.out.println("Inside add Product");
+		log.debug("Start of addProductFunction");
 		productDAO.saveProduct(product);
-		String path="F:\\EclipseMain\\Projects\\Philosophia\\Philosophia\\src\\main\\webapp\\Resources\\Images\\";
+		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
 		path=path+String.valueOf(product.getProductId())+".jpg";
 		File f=new File(path);
 		MultipartFile filedet= product.getProductImage();
@@ -67,88 +112,42 @@ public class ProductController {
 		else
 		{
 			System.out.println("File is Empty not Uploaded");
-			
-		}
-
-
-		ModelAndView mv= new ModelAndView("/Admin");
-		mv.addObject("msg", "Product ADDED");
-		log.debug("End of Product add");
-		return mv;
-	}
-	
-	@RequestMapping("/selProductEdit")
-	public ModelAndView showProductEdit(Map<String, Object> map)
-	{
-		log.debug("Start of go to Product edit");
-		List<Product> prodList=productDAO.getAllProducts();
-		map.put("prList", prodList );
-		ModelAndView mv=new ModelAndView("/ProductEdit",map);
-		log.debug("End of go to Product edit");
-		return mv;
-	}
-	
-	@RequestMapping("/findProduct")
-	public ModelAndView findProduct(@RequestParam("pID") String prID, Map<String, Object> map)
-	{
-		log.debug("Start of Product add");
-		Product pr=productDAO.getProductById(prID);
-		ModelAndView mv=new ModelAndView("/ProductEdit2","command", new Product() );
-		mv.addObject("prFound", pr);
-		log.debug("End of Product add");
+		}		
+		List<Product> productList=productDAO.getAllProducts();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
+		mv.addObject("prList" ,productList);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("editProductMsg", null);
+		mv.addObject("CategoryManage", null);
+		mv.addObject("path","F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\");
+		mv.addObject("ProductManage", "ProductManagement");
+		log.debug("End of addProductFunction");
 		return mv;
 	}
 	
 	@RequestMapping(value="/editProduct",  method = RequestMethod.POST)
-	public ModelAndView editProductFunction(@ModelAttribute Product product,@RequestParam("prID") String pID)
+	public ModelAndView editProductFunction(@RequestParam("prID") String pID,@RequestParam("productName") String pName,@RequestParam("productDesc") String pDesc,@RequestParam("supplierId") String psupplierId,@RequestParam("categoryId") String pcategoryId,@RequestParam("productQuantity") int pQuantity,@RequestParam("productCost") int pCost)
 	{
+		log.debug("Start of editProductFunction");
+		Product product=new Product();
 		product.setProductId(pID);
+		product.setProductName(pName);
+		product.setProductDesc(pDesc);
+		product.setCategoryId(pcategoryId);
+		product.setSupplierId(psupplierId);
+		product.setProductQuantity(pQuantity);
+		product.setProductCost(pCost);
 		productDAO.updateProduct(product);
-		ModelAndView mv= new ModelAndView("/Admin");
-		mv.addObject("msg", "Product Edited");
+		List<Product> productList=productDAO.getAllProducts();
+		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
+		mv.addObject("prList" ,productList);
+		mv.addObject("SuppierManage", null);
+		mv.addObject("editProductMsg", null);
+		mv.addObject("CategoryManage", null);
+		mv.addObject("path","F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\");
+		mv.addObject("ProductManage", "ProductManagement");
+		log.debug("End of editProductFunction");
 		return mv;
 	}
 	
-	@RequestMapping("/selProductDelete")
-	public ModelAndView deleteProductFunction()
-	{
-		ModelAndView mv=new ModelAndView("/ProductDelete");
-		return mv;
-	}
-	
-	@RequestMapping("/deleteProduct")
-	public ModelAndView deleteProduct(@RequestParam("pID") String prID)
-	{
-		productDAO.deleteProduct(prID);
-		ModelAndView mv=new ModelAndView("/Admin");
-		return mv;
-	}
-	
-	@RequestMapping("/selProductView")
-	public ModelAndView viewProduct(Map<String, Object> map)
-	{
-		String path="F:\\EclipseMain\\Projects\\Philosophia\\Philosophia\\src\\main\\webapp\\Resources\\Images\\";
-		List<Product> prodList=productDAO.getAllProducts();
-		map.put("prList", prodList );
-		map.put("path", path);
-		ModelAndView mv=new ModelAndView("/ProductView",map);
-		return mv;
-	}
-	
-	@RequestMapping("/goProdView")
-	public ModelAndView showProducts(Map<String, Object> map)
-	{
-		String path="F:\\EclipseMain\\Projects\\Philosophia\\Philosophia\\src\\main\\webapp\\Resources\\Images\\";
-		List<Product> prodList=productDAO.getAllProducts();
-		System.out.println(prodList.size());
-		map.put("prList", prodList );
-		map.put("path", path);
-		ModelAndView mv=new ModelAndView("/Products");
-		mv.addObject("prList", prodList);
-		mv.addObject("path", path);
-		return mv;
-	}
-	 
-*/
-
 }

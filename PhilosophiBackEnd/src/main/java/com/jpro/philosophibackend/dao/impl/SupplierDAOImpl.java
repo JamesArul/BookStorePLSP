@@ -25,7 +25,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 	}
 
 	@Transactional
-	public List<Supplier> getAllCategory() {
+	public List<Supplier> getAllSupplier() {
 		return sessionFactory.getCurrentSession().createQuery("from Supplier").list();
 	}
 

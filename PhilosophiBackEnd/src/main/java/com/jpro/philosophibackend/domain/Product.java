@@ -22,13 +22,14 @@ public class Product {
 	@Id
 	private String productId;
 	
-	@Size(min=4,max=10)
+	@Size(min=4,max=30)
 	private String productName;
 	
 	private String categoryId;
 	
 	private String supplierId;
 	
+	@Size(min=10)
 	private String productDesc;
 	
 	private int productQuantity;

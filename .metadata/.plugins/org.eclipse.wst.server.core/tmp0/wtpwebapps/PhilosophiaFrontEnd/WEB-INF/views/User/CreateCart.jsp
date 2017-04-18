@@ -12,34 +12,56 @@
 </head>
 <body>
 <jsp:include page="..\MainHeader.jsp"></jsp:include>
+ <h2>${ noCartInitialized }</h2>  
 <center>Create a cart and then add Products to your cart</center>
-<form method="post" action="createCartOfUser">
+<!-- <div class="form-group">
+      <label class="control-label col-sm-2" for="categoryId">Category Id:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="categoryId" name="categoryId" value="${prFound.categoryId}">
+      </div>
+    </div> -->
+<form class="form-horizontal" method="post" action="createCartOfUser">
 <div class="form-group">
-<label for="title">User ID:</label>
-<input type="text" value="${userID}" disabled="disabled">
-<input type="hidden" id="usID" name="usID" value="${userID}"><br>
+<label class="control-label col-sm-2" for="title">User ID:</label>
+<div class="col-sm-10">
+<input type="text" class="form-control" value="${userID}" disabled="disabled">
+<input type="hidden" id="usID" name="usID" value="${userID}">
+</div>
 </div>
 <div class="form-group">
-<label for="title">Deliver To (Receiver Name):</label>
-<input type="text" id="usName" name="usName" value="${ UserName }"><br>
-</div><br>
+<label class="control-label col-sm-2" for="usName">Deliver To (Receiver Name):</label>
+<div class="col-sm-10">
+<input type="text" class="form-control" id="usName" name="usName" value="${ UserName }">
+</div>
+</div>
+<center><h3>Enter the Billing Address</h3></center>
 <div class="form-group">
-<label for="title">Address Line1:</label>
-<input type="text" id="addr1" name="addr1" placeholder="Enter your street"><br>
-</div><br>
+<label class="control-label col-sm-2" for="addr1">Street:</label>
+<div class="col-sm-10">
+<input type="text" class="form-control" id="addr1" name="addr1" placeholder="Enter your street">
+</div>
+</div>
 <div class="form-group">
-<label for="title">City:</label>
-<input type="text" id="addr2" name="addr2"><br>
-</div><br>
+<label class="control-label col-sm-2" for="addr2">City:</label>
+<div class="col-sm-10">
+<input type="text" class="form-control" id="addr2" name="addr2" placeholder="Enter your City">
+</div>
+</div>
 <div class="form-group">
-<label for="title">State:</label>
-<input type="text" id="addr3" name="addr3"><br>
-</div><br>
+<label class="control-label col-sm-2" for="addr3">State:</label>
+<div class="col-sm-10">
+<input type="text" class="form-control" id="addr3" name="addr3" placeholder="Enter your State">
+</div>
+</div>
 <div class="form-group">
-<label for="title">Pincode</label>
-<input type="text" id="addr4" name="addr4"><br>
-</div><br>
-<input type="submit" value="Create Cart">
+<label class="control-label col-sm-2" for="addr4">Pincode</label>
+<div class="col-sm-10">
+<input type="text" class="form-control" id="addr4" name="addr4" placeholder="Enter your Pincode">
+</div>
+</div>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<center><input type="submit" value="Create Cart"></center>
 </form>
+<jsp:include page="..\MainFooter.jsp"></jsp:include>
 </body>
 </html>

@@ -19,33 +19,28 @@ function generateCartBill()
 <body>
 <jsp:include page="..\MainHeader.jsp"></jsp:include>
  <div class="container">
-  <h2>Books in Cart</h2>            
+  <h2>Books in Cart</h2>
+  <h2>${ msg }</h2>          
   <table class="table table-bordered">
     <thead>
       <tr>
         <th>Product Id</th>
         <th>Product Name</th>
-        <th>Product Description</th>
-        <th>Supplier Id</th>
-        <th>Category Id</th>
         <th>Product Quantity</th>
         <th>Product Cost</th>
         <th>Edit/Remove</th>
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${prList}" var="pList">
+    <c:forEach items="${prInCartList}" var="pList">
       <tr>
-        <td><c:out value="${pList.productID}" /></td>
+        <td><c:out value="${pList.productId}" /></td>
         <td><c:out value="${pList.productName}" /></td>
-        <td><c:out value="${pList.productDesc}" /></td>
-        <td><c:out value="${pList.supplierID}" /></td>
-        <td><c:out value="${pList.categoryID}" /></td>
-        <td><c:out value="${pList.productQty}" /></td>
+        <td><c:out value="${pList.productQuantity}" /></td>
         <td><c:out value="${pList.productCost}" /></td>
         <td>
         <form action="removeProdFromCart"> 
-        <input type="hidden" id="prID" name="prID" value="${pList.productID}"><br>
+        <input type="hidden" id="prID" name="prID" value="${pList.productId}"><br>
         <input type="submit" value="Remove from Cart"> 
         </form>
         </td>
@@ -54,7 +49,10 @@ function generateCartBill()
     </tbody>
   </table>
 </div>
+<center>
+<h1>Total Cost : ${ totalCostOfCart } </h1>
 <button type="button" class="btn btn-primary" id="genBill" onclick="generateCartBill()">Generate Bill</button>
+</center>
     <jsp:include page="..\MainFooter.jsp"></jsp:include>
 </body>
 </html>

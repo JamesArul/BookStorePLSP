@@ -6,7 +6,7 @@ import com.jpro.philosophibackend.domain.Supplier;
 
 public interface SupplierDAO {
 	
-	public List<Supplier> getAllCategory();
+	public List<Supplier> getAllSupplier();
 	
 	public boolean saveSupplier(Supplier supplier);
 	

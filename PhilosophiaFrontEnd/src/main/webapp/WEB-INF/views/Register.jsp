@@ -44,27 +44,37 @@ function validateRegForm()
 <body>
 <jsp:include page="MainHeader.jsp"></jsp:include>
 <center><p>Enter the User Details</p>
-<form:form name="RegForm" method="post" action="addUser" modelAttribute="User" onsubmit="return validateRegForm()">
+<form:form class="form-horizontal" name="RegForm" method="post" action="addUser" modelattribute="user" onsubmit="return validateRegForm()">
 <div class="form-group">
-<label for="title">Enter ID:</label>
-<form:input id="uId" path="userID"/>
-</div><br>
+<label class="control-label col-sm-2" for="uId">Enter ID:</label>
+<div class="col-sm-10">
+<form:input class="form-control" id="uId" path="userID"/><form:errors  path="userID" />
+</div>
+</div>
 <div class="form-group">
-<label for="title">Enter your Name:</label>
-<form:input id="uName" path="userName"/>
-</div><br>
+<label class="control-label col-sm-2" for="uName">Enter your Name:</label>
+<div class="col-sm-10">
+<form:input class="form-control" id="uName" path="userName"/><form:errors  path="userName" />
+</div>
+</div>
 <div class="form-group">
-<label for="title">Enter your Email</label>
-<form:input id="uEmail" path="userEmail"/>
-</div><br>
+<label class="control-label col-sm-2" for="uEmail">Enter your Email</label>
+<div class="col-sm-10">
+<form:input class="form-control" id="uEmail" path="userEmail"/><form:errors  path="userEmail" />
+</div>
+</div>
 <div class="form-group">
-<label for="title">Password</label>
-<form:password id="uPwd" path="userPassword"/>
-</div><br>
+<label class="control-label col-sm-2" for="uPwd">Password</label>
+<div class="col-sm-10">
+<form:password class="form-control" id="uPwd" path="userPassword"/><form:errors  path="userPassword" />
+</div>
+</div>
 <div class="form-group">
-<label for="title">Contact</label>
-<form:input id="uContact" path="userContact"/>
-</div><br>
+<label class="control-label col-sm-2" for="uContact">Contact</label>
+<div class="col-sm-10">
+<form:input class="form-control" id="uContact" path="userContact"/><form:errors  path="userContact" />
+</div>
+</div>
 <input type="submit" value="Register">
 </form:form>
 </center>

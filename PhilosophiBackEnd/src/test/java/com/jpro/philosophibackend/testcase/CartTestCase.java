@@ -3,6 +3,7 @@ package com.jpro.philosophibackend.testcase;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -76,11 +77,64 @@ public class CartTestCase {
 		Assert.assertEquals("addCartTestCase", true, flag);
 	}
 	*/
-	
+	/*
 	@Test
 	public void editCartTestCase()
 	{
 		boolean flag=cartDAO.removeProductFromCart("TS-SAT001", 2);
 		Assert.assertEquals("editCartTestCase", true, flag);
 	}
+	*/
+	/*
+	@Test
+	public void showCarts()
+	{
+		int recordsFromDao = cartDAO.getCartsOfUser("James2").size();
+		assertEquals("getAllProductTestCase",0 , recordsFromDao );
+	}
+	*/
+	
+	@Test
+	public void showProductOfCarts()
+	{
+		int recordsFromDao = cartDAO.getProductsInCart(35).size();
+		List<ProductOfCart> list_ProductsInCart=cartDAO.getProductsInCart(35);
+		ProductOfCart prOfCart;
+		for(int i=0;i<list_ProductsInCart.size();i++)
+		{
+			prOfCart=list_ProductsInCart.get(i);
+			System.out.println(prOfCart.getProductId());
+			System.out.println(prOfCart.getProductName());
+			System.out.println(prOfCart.getProductCost());
+			System.out.println(prOfCart.getProductQuantity());
+		}
+		assertEquals("getAllProductTestCase",1 , recordsFromDao );
+	}
+	
+	/*
+	@Test
+	public void getTotal()
+	{
+	int total=cartDAO.getTotalAmount(3);
+	assertEquals("getAllProductTestCase", 800 , total );
+	}
+	*/
+
+	/*
+	@Test
+	public void deleteFromCartTestCase()
+	{
+		boolean flag=cartDAO.removeProductFromCart("BK002", 1);
+		Assert.assertEquals("editCartTestCase", true, flag);
+	}
+
+*/
+	/*
+	@Test
+	public void updateTotalCostTestCase()
+	{
+	boolean flag=cartDAO.updateTotalCost(2, 1500);
+	Assert.assertEquals("editCartTestCase", true, flag);
+	}
+	*/
 }

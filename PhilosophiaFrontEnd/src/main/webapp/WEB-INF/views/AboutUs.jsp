@@ -23,6 +23,7 @@ width: 100%;
     <footer>Mark Twain</footer>
   </blockquote>
   </div>
+  <p>The PhilosophiaProject is a a world wide distributor of books at affordable prices. Our purpose is to provide world wide education thorugh affordable books.</p> 
 <jsp:include page="MainFooter.jsp"></jsp:include>
 </body>
 </html>

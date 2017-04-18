@@ -1,10 +1,9 @@
 package com.jpro.philosophia.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,11 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jpro.philosophibackend.dao.CartDAO;
 import com.jpro.philosophibackend.dao.ProductDAO;
 import com.jpro.philosophibackend.dao.UserDAO;
-import com.jpro.philosophibackend.domain.Category;
-import com.jpro.philosophibackend.domain.Product;
-import com.jpro.philosophibackend.domain.User;
-import com.jpro.philosophibackend.domain.Cart;
 import com.jpro.philosophibackend.domain.Address;
+import com.jpro.philosophibackend.domain.Cart;
+import com.jpro.philosophibackend.domain.Product;
+import com.jpro.philosophibackend.domain.ProductOfCart;
+import com.jpro.philosophibackend.domain.User;;
 
 @Controller
 public class CartController {
@@ -41,131 +40,151 @@ public class CartController {
 	
 	@Autowired
 	public HttpSession session;
-	/*
-	@RequestMapping("/goMyCart")
-	public ModelAndView goToCart(Map<String, Object> map)
+	
+	@RequestMapping("/addConfirmProduct")
+	public ModelAndView confirmProdBuy(@RequestParam("prdAddId") String product_Add_Id)
 	{
-		log.debug("Start of method goToCart");
-		int cartID=(Integer)session.getAttribute("CurrentCartID");
-		/*List<String> prodInCartList=cartDAO.getProductsInCart(cartID);
-		//err ArrayList<String> tempProdList= (ArrayList<String>) prodInCartList.get(0);
-		List<Product> products=productDAO.getAllProduct();
-		List<Product> productOfCart=new ArrayList<Product>();
-		for(String s: prodInCartList)
+		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
+		String user_Id=(String) session.getAttribute("UserID");
+		ModelAndView mv=new ModelAndView();
+		List<Cart> list_user_cart=cartDAO.getCartsOfUser(user_Id);
+		Product product_Add=productDAO.getProductById(product_Add_Id);
+		if(!list_user_cart.isEmpty())
 		{
-			for(Product p: products)
-			{
-				if(p.getProductID().equals(s))
-				{
-					productOfCart.add(p);
-				}
-			}
-		}
-		ModelAndView mv=new ModelAndView("/UserCart");
-		mv.addObject("prList",productOfCart);
-		/*List<String> prodIDs=new ArrayList<String>();
-				prodIDs=cartDAO.getProductsInCart(cartID);
-		ListIterator<String> pIdsIter=prodIDs.listIterator();
-		//List<Product> prodList=productDAO.getAllProduct();
-		List<Product> products=new ArrayList<Product>();
-				products=productDAO.getAllProduct();
-		ListIterator<Product> prodIter=products.listIterator();
-		List<Product> prodIDsInCart=new ArrayList<Product>();
-		for(int i=0;i<prodIDs.size();i++)
-		{
-			for(int j=0;j<products.size();j++)
-			{
-				if(prodIDs.get(i).equals(products.get(j).getProductID()))
-				{
-					prodIDsInCart.add(products.get(j));
-				}
-			}
-		}*/
-		/*while(pIdsIter.hasNext())
-		{
-			while(prodIter.hasNext())
-			{
-				String tempProdId=prodIter.next().getProductID();
-				String tempPId=(String) pIdsIter.next();
-				if(tempPId.equals(tempProdId))
-				{
-					prodIDsInCart.add(prodIter.next());
-				}
-			}
-		}*/
-		/*
-		map.put("prList", prodIDsInCart );
-		//map.put("path", path);
-		ModelAndView mv=new ModelAndView("/UserCart", map);
-		mv.addObject("prList", prodIDsInCart);*/
-		/*log.debug("End of method goToCart");
-		return mv;
-	}
-
-	@RequestMapping("/addProductToCart")
-	public ModelAndView addProductCart(@RequestParam("prID") String prodId)//,@RequestParam("prQty") int productQuantity
-	{
-		log.debug("Start of method addProductCart");
-		String path="F:\\EclipseMain\\Projects\\Philosophia\\Philosophia\\src\\main\\webapp\\Resources\\Images\\";
-		List<Product> prodList=productDAO.getAllProduct();
-		ModelAndView mv=null;
-		Product product=productDAO.getProductById(prodId);
-		User user=userDAO.getUserByName((String) session.getAttribute("UserName"));
-		List<Cart> carts=cartDAO.getCartUser(user.getUserID());
-		if(session.getAttribute("CurrentCartID")!=null && carts.size()!=0)
-		{
-			int crtID=(Integer)session.getAttribute("CurrentCartID");
-			Cart cart=cartDAO.getCartById(crtID);
-			
 			Cart innerCart=new Cart();
-			Iterator<Cart> iter=carts.iterator();
-			while(iter.hasNext())
-			{
-				innerCart = iter.next();
-			}
-			if(innerCart.getCartStatus().equals("delivered") || innerCart.getCartStatus()=="deployed")
-			{
-				mv=new ModelAndView("/CreateCart");
-				mv.addObject("userID", user.getUserID());
-				log.debug("End of method addProductCart");
-			}
-			else
-			{
-				cart.getProductsinCart().add(product);
-				int costADD=cart.getTotalCost();
-				costADD+=product.getProductCost();
-				cart.setTotalCost(costADD);
-				cartDAO.updateCart(cart);
-				mv=new ModelAndView("/Products");
-				mv.addObject("prList", prodList);
+			Iterator<Cart> iter=list_user_cart.iterator();
+				while(iter.hasNext())
+				{
+					innerCart = iter.next();
+				}
+				if(innerCart.getCartStatus().equals("Delivered") || innerCart.getCartStatus().equals("Deployed"))
+				{
+					log.debug("Creating new Cart");
+					mv=new ModelAndView("/User/CreateCart");
+					mv.addObject("noCartInitialized","No Carts available Create New to continue");
+					mv.addObject("userID", user_Id);
+					return mv;
+				}
+				else if(!innerCart.getProductOfCart().isEmpty())
+				{
+					for(ProductOfCart p: innerCart.getProductOfCart())
+					{
+						if(p.getProductId().equals(product_Add_Id))
+						{
+							mv=new ModelAndView("/ViewProducts");
+							mv.addObject("error","Product already in cart");
+							List<Product> prodList=productDAO.getAllProducts();
+							mv.addObject("prList", prodList);
+							mv.addObject("path", path);
+							return mv;
+						}
+					}
+				}
+				mv=new ModelAndView("/User/ConfirmBookBuy");
+				if(product_Add.getProductQuantity()==0)
+				{
+					mv.addObject("OutOfStock", "ProductIsOutOfStock");
+				}
+				else
+				{
+					mv.addObject("OutOfStock", null);
+					mv.addObject("AvailableQty",product_Add.getProductQuantity());
+				}
 				mv.addObject("path", path);
-				log.debug("End of method addProductCart");
-			}
-			return mv;
+				mv.addObject("ProductDetails",productDAO.getProductById(product_Add_Id));
+				return mv;
 		}
 		else
 		{
-			mv=new ModelAndView("/CreateCart");
-			mv.addObject("userID", user.getUserID());
-			log.debug("End of method addProductCart");
+			log.debug("Creating new Cart");
+			mv=new ModelAndView("/User/CreateCart");
+			mv.addObject("userID", user_Id);
 			return mv;
 		}
+	}
+	
+	
+	@RequestMapping("/addCartProduct")
+	public ModelAndView goUserCart(@RequestParam("prdAddId") String product_Add_Id, @RequestParam("quantity") int product_Add_Qty)
+	{
+		log.debug("Start of method goUserCart");
+		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
+		List<Product> prodList=productDAO.getAllProducts();
+		ModelAndView mv;
+		String user_Id=(String) session.getAttribute("UserID");
+		int cartID=(Integer)session.getAttribute("CurrentCartID");
+		List<Cart> list_user_cart=cartDAO.getCartsOfUser(user_Id);
+		ProductOfCart product_Put_In_Cart=new ProductOfCart();
+		Product product_Added=productDAO.getProductById(product_Add_Id);
+		if(!session.getAttribute("CurrentCartID").equals(null))
+		{
+			Cart currentCart=cartDAO.getCartById(cartID);
+					//session.setAttribute("CurrentCartID", innerCart.getCartID());
+					log.debug("Putting product in Cart");
+					mv=new ModelAndView("/ViewProducts");
+					product_Put_In_Cart.setProductId(product_Add_Id);
+					product_Put_In_Cart.setProductName(product_Added.getProductName());
+					product_Put_In_Cart.setProductQuantity(product_Add_Qty);
+					product_Put_In_Cart.setProductCost(product_Added.getProductCost());
+					currentCart.getProductOfCart().add(product_Put_In_Cart);
+					product_Added.setProductQuantity(product_Added.getProductQuantity()-product_Add_Qty);
+					productDAO.updateProduct(product_Added);
+					currentCart.setTotalCost(currentCart.getTotalCost()+(product_Added.getProductCost()*product_Add_Qty));
+					cartDAO.updateCart(currentCart);
+					mv.addObject("prList", prodList);
+					mv.addObject("path", path);
+				log.debug("End of method goUserCart");
+		}
+		else
+		{
+			log.debug("Creating new Cart");
+			mv=new ModelAndView("/User/CreateCart");
+			mv.addObject("userID", user_Id);
+		}
+		return mv;
+	}
+	
+	@RequestMapping("/goMyCart")
+	public ModelAndView goToCart()
+	{
+		log.debug("Start of method goToCart");
+		ModelAndView mv;
+		String user_Id=(String) session.getAttribute("UserID");
+		if(session.getAttribute("CurrentCartID")!=null)
+		{
+		int cartID=(Integer)session.getAttribute("CurrentCartID");
+		List<ProductOfCart> product_In_Cart=cartDAO.getProductsInCart(cartID);
+		mv= new ModelAndView("/User/UserCart");
+		mv.addObject("prInCartList", product_In_Cart );
+		mv.addObject("totalCostOfCart",cartDAO.getCartById(cartID).getTotalCost());
+		}
+		else
+		{
+			log.debug("Creating new Cart");
+			mv=new ModelAndView("/User/CreateCart");
+			mv.addObject("noCartInitialized","No Carts available Create New Cart to continue");
+			mv.addObject("userID", user_Id);
+		}
+		log.debug("End of method goToCart");
+		return mv;
 	}
 	
 	@RequestMapping("/createCartOfUser")
 	public ModelAndView createCart(@RequestParam("usID") String userID,@RequestParam("usName") String userName,@RequestParam("addr1") String addrLine1,@RequestParam("addr2") String addrLine2,@RequestParam("addr3") String addrLine3,@RequestParam("addr4") int addrLine4)
 	{
-		String path="F:\\EclipseMain\\Projects\\Philosophia\\Philosophia\\src\\main\\webapp\\Resources\\Images\\";
-		List<Product> prodList=productDAO.getAllProduct();
+		log.debug("Start of method goToCart");
+		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
+		List<Product> prodList=productDAO.getAllProducts();
 		Cart cart=new Cart();
 		User user=userDAO.getUserById(userID);
+		System.out.println(user.getUserName());
 		Date date=new Date();
 		Address address=new Address();
 		address.setStreet(addrLine1);
 		address.setCity(addrLine2);
 		address.setState(addrLine3);
 		address.setPincode(addrLine4);
-		cart.setUser_Id(userID);
+		cart.setUserId(user.getUserID());
 		cart.setDelivery_name(userName);
 		cart.setBillingAddress(address);
 		cart.setUser_contact(user.getUserContact());
@@ -173,29 +192,83 @@ public class CartController {
 		cart.setDateAdded(date);
 		cart.setCartStatus("Created");
 		cartDAO.saveCart(cart);
-		ModelAndView mv=new ModelAndView("/Products");
+		ModelAndView mv=new ModelAndView("/ViewProducts");
 		mv.addObject("prList", prodList);
 		mv.addObject("path", path);
-		session.setAttribute("CurrentCartID", cart.getCartId());
-		return mv;
-	}
-	
-	@RequestMapping("goGenerateBill")
-	public ModelAndView goGenerateBill()
-	{
-		cartDAO.generateBill((Integer)session.getAttribute("CurrentCartID"));
-		ModelAndView mv=new ModelAndView("/Home");
+		session.setAttribute("CurrentCartID", cart.getCartID());
+		log.debug("Start of method goToCart");
 		return mv;
 	}
 	
 	@RequestMapping("/removeProdFromCart")
 	public ModelAndView goRemoveProduct(@RequestParam("prID") String prodId)
 	{
+		log.debug("Start of method goRemoveProduct");
+		ModelAndView mv;
 		Product product=productDAO.getProductById(prodId);
 		Cart cart=cartDAO.getCartById((Integer)session.getAttribute("CurrentCartID"));
-		cart.getProductsinCart().remove(product);
-		cartDAO.updateCart(cart);
-		ModelAndView mv=new ModelAndView("/UserCart");
+		int prQtyInCart=0;
+		List<ProductOfCart> prInCart=cartDAO.getProductsInCart(cart.getCartID());
+		for(ProductOfCart p : prInCart)
+		{
+			if(prodId.equals(p.getProductId()))
+			{
+				prQtyInCart=p.getProductQuantity();
+			}
+		}
+		if(cart.getCartStatus().equals("Delivered") || cart.getCartStatus().equals("Deployed"))
+		{
+			log.debug("Cart is deployed cannot remove products");
+			mv=new ModelAndView("/User/UserCart");
+			mv.addObject("msg","Error Cart has been deployed cannot be modified");
+		}
+		else
+		{
+		product.setProductId(prodId);
+		product.setProductQuantity(product.getProductQuantity()+prQtyInCart);
+		productDAO.updateProduct(product);
+		cartDAO.removeProductFromCart(prodId, cart.getCartID());
+		int newTotalCost=cart.getTotalCost()-(product.getProductCost()*prQtyInCart);
+		cartDAO.updateTotalCost(cart.getCartID(), newTotalCost);
+		List<ProductOfCart> product_In_Cart=cartDAO.getProductsInCart(cart.getCartID());
+		mv=new ModelAndView("/User/UserCart");
+		mv.addObject("prInCartList", product_In_Cart );
+		mv.addObject("totalCostOfCart",cartDAO.getCartById(cart.getCartID()).getTotalCost());
+		}
+		log.debug("End of method goRemoveProduct");
 		return mv;
-	}*/
+	}
+	
+	@RequestMapping("goGenerateBill")
+	public ModelAndView goGenerateBill()
+	{
+		Cart cart=cartDAO.getCartById((Integer)session.getAttribute("CurrentCartID"));
+		ModelAndView mv;
+		if(cartDAO.getProductsInCart(cart.getCartID()).size()==0)
+		{
+			mv=new ModelAndView("/ViewProducts");
+			mv.addObject("error","Cart is Empty");
+			return mv;
+		}
+		mv=new ModelAndView("/User/CreateCart2");
+		return mv;
+	}
+
+	@RequestMapping("getShippingAddress")
+	public ModelAndView finishCartOrder(@RequestParam("addr1") String addrLine1,@RequestParam("addr2") String addrLine2,@RequestParam("addr3") String addrLine3,@RequestParam("addr4") int addrLine4)
+	{
+		Address address=new Address();
+		address.setStreet(addrLine1);
+		address.setCity(addrLine2);
+		address.setState(addrLine3);
+		address.setPincode(addrLine4);
+		Cart cart=cartDAO.getCartById((Integer)session.getAttribute("CurrentCartID"));
+		cart.setShippingAddress(address);
+		cart.setCartStatus("Deployed");
+		cartDAO.updateCart(cart);
+		cartDAO.generateBill((Integer)session.getAttribute("CurrentCartID"));
+		ModelAndView mv=new ModelAndView("/Home");
+		return mv;
+	}	
+	
 }
