@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,6 +17,8 @@ import com.jpro.philosophibackend.domain.Product;
 @EnableTransactionManagement
 @Repository("productDAO")
 public class ProductDAOImpl implements ProductDAO {
+	
+	private static final Logger log = LoggerFactory.getLogger(ProductDAOImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -31,54 +35,66 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Transactional
 	public boolean saveProduct(Product product) {
+		log.debug("Start of saveProduct");
 		try
 		{
 		sessionFactory.getCurrentSession().save(product);
+		log.debug("End of saveProduct");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of saveProduct");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean updateProduct(Product product) {
+		log.debug("Start of updateProduct");
 		try
 		{
 		sessionFactory.getCurrentSession().update(product);
+		log.debug("End of updateProduct");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of updateProduct");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean deleteProduct(Product product) {
+		log.debug("Start of deleteProduct");
 		try
 		{
 		sessionFactory.getCurrentSession().delete(product);
+		log.debug("End of deleteProduct");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of deleteProduct");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean deleteProduct(String produtcId) {
+		log.debug("Start of deleteProduct");
 		try {
 			sessionFactory.getCurrentSession().delete(getProductById(produtcId));
+			log.debug("End of deleteProduct");
 			return true;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
+			log.debug("End of deleteProduct");
 			return false;
 		}
 	}

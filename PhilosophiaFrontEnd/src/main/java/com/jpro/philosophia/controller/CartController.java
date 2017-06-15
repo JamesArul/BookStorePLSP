@@ -44,6 +44,7 @@ public class CartController {
 	@RequestMapping("/addConfirmProduct")
 	public ModelAndView confirmProdBuy(@RequestParam("prdAddId") String product_Add_Id)
 	{
+		log.debug("Start of method addConfirmProduct");
 		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
 		String user_Id=(String) session.getAttribute("UserID");
 		ModelAndView mv=new ModelAndView();
@@ -63,6 +64,7 @@ public class CartController {
 					mv=new ModelAndView("/User/CreateCart");
 					mv.addObject("noCartInitialized","No Carts available Create New to continue");
 					mv.addObject("userID", user_Id);
+					log.debug("End of method addConfirmProduct");
 					return mv;
 				}
 				else if(!innerCart.getProductOfCart().isEmpty())
@@ -71,11 +73,13 @@ public class CartController {
 					{
 						if(p.getProductId().equals(product_Add_Id))
 						{
+							log.debug("Product already in Cart");
 							mv=new ModelAndView("/ViewProducts");
 							mv.addObject("error","Product already in cart");
 							List<Product> prodList=productDAO.getAllProducts();
 							mv.addObject("prList", prodList);
 							mv.addObject("path", path);
+							log.debug("End of method addConfirmProduct");
 							return mv;
 						}
 					}
@@ -83,15 +87,18 @@ public class CartController {
 				mv=new ModelAndView("/User/ConfirmBookBuy");
 				if(product_Add.getProductQuantity()==0)
 				{
+					log.debug("Product Out of Stock");
 					mv.addObject("OutOfStock", "ProductIsOutOfStock");
 				}
 				else
 				{
+					log.debug("Product available for Purchase");
 					mv.addObject("OutOfStock", null);
 					mv.addObject("AvailableQty",product_Add.getProductQuantity());
 				}
 				mv.addObject("path", path);
 				mv.addObject("ProductDetails",productDAO.getProductById(product_Add_Id));
+				log.debug("End of method addConfirmProduct");
 				return mv;
 		}
 		else
@@ -99,6 +106,7 @@ public class CartController {
 			log.debug("Creating new Cart");
 			mv=new ModelAndView("/User/CreateCart");
 			mv.addObject("userID", user_Id);
+			log.debug("End of method addConfirmProduct");
 			return mv;
 		}
 	}
@@ -107,7 +115,7 @@ public class CartController {
 	@RequestMapping("/addCartProduct")
 	public ModelAndView goUserCart(@RequestParam("prdAddId") String product_Add_Id, @RequestParam("quantity") int product_Add_Qty)
 	{
-		log.debug("Start of method goUserCart");
+		log.debug("Start of method addCartProduct");
 		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
 		List<Product> prodList=productDAO.getAllProducts();
 		ModelAndView mv;
@@ -132,8 +140,7 @@ public class CartController {
 					currentCart.setTotalCost(currentCart.getTotalCost()+(product_Added.getProductCost()*product_Add_Qty));
 					cartDAO.updateCart(currentCart);
 					mv.addObject("prList", prodList);
-					mv.addObject("path", path);
-				log.debug("End of method goUserCart");
+					mv.addObject("path", path);				
 		}
 		else
 		{
@@ -141,17 +148,19 @@ public class CartController {
 			mv=new ModelAndView("/User/CreateCart");
 			mv.addObject("userID", user_Id);
 		}
+		log.debug("End of method addCartProduct");
 		return mv;
 	}
 	
 	@RequestMapping("/goMyCart")
 	public ModelAndView goToCart()
 	{
-		log.debug("Start of method goToCart");
+		log.debug("Start of method goMyCart");
 		ModelAndView mv;
 		String user_Id=(String) session.getAttribute("UserID");
 		if(session.getAttribute("CurrentCartID")!=null)
 		{
+		log.debug("Viewing Products in Cart");
 		int cartID=(Integer)session.getAttribute("CurrentCartID");
 		List<ProductOfCart> product_In_Cart=cartDAO.getProductsInCart(cartID);
 		mv= new ModelAndView("/User/UserCart");
@@ -165,14 +174,14 @@ public class CartController {
 			mv.addObject("noCartInitialized","No Carts available Create New Cart to continue");
 			mv.addObject("userID", user_Id);
 		}
-		log.debug("End of method goToCart");
+		log.debug("End of method goMyCart");
 		return mv;
 	}
 	
 	@RequestMapping("/createCartOfUser")
 	public ModelAndView createCart(@RequestParam("usID") String userID,@RequestParam("usName") String userName,@RequestParam("addr1") String addrLine1,@RequestParam("addr2") String addrLine2,@RequestParam("addr3") String addrLine3,@RequestParam("addr4") int addrLine4)
 	{
-		log.debug("Start of method goToCart");
+		log.debug("Start of method createCartOfUser");
 		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
 		List<Product> prodList=productDAO.getAllProducts();
 		Cart cart=new Cart();
@@ -191,19 +200,20 @@ public class CartController {
 		cart.setTotalCost(0);
 		cart.setDateAdded(date);
 		cart.setCartStatus("Created");
+		log.debug("Adding cart");
 		cartDAO.saveCart(cart);
 		ModelAndView mv=new ModelAndView("/ViewProducts");
 		mv.addObject("prList", prodList);
 		mv.addObject("path", path);
 		session.setAttribute("CurrentCartID", cart.getCartID());
-		log.debug("Start of method goToCart");
+		log.debug("Start of method createCartOfUser");
 		return mv;
 	}
 	
 	@RequestMapping("/removeProdFromCart")
 	public ModelAndView goRemoveProduct(@RequestParam("prID") String prodId)
 	{
-		log.debug("Start of method goRemoveProduct");
+		log.debug("Start of method removeProdFromCart");
 		ModelAndView mv;
 		Product product=productDAO.getProductById(prodId);
 		Cart cart=cartDAO.getCartById((Integer)session.getAttribute("CurrentCartID"));
@@ -224,6 +234,7 @@ public class CartController {
 		}
 		else
 		{
+		log.debug("Removing product from Cart");
 		product.setProductId(prodId);
 		product.setProductQuantity(product.getProductQuantity()+prQtyInCart);
 		productDAO.updateProduct(product);
@@ -235,28 +246,32 @@ public class CartController {
 		mv.addObject("prInCartList", product_In_Cart );
 		mv.addObject("totalCostOfCart",cartDAO.getCartById(cart.getCartID()).getTotalCost());
 		}
-		log.debug("End of method goRemoveProduct");
+		log.debug("End of method removeProdFromCart");
 		return mv;
 	}
 	
 	@RequestMapping("goGenerateBill")
 	public ModelAndView goGenerateBill()
 	{
+		log.debug("Start of the goGenerateBill");
 		Cart cart=cartDAO.getCartById((Integer)session.getAttribute("CurrentCartID"));
 		ModelAndView mv;
-		if(cartDAO.getProductsInCart(cart.getCartID()).size()==0)
+		if(cartDAO.getProductsInCart(cart.getCartID()).size()==0 || cartDAO.getCartStatus(cart.getCartID()).equals("Deployed"))
 		{
+			log.debug("There are no products in cart or Create New Cart");
 			mv=new ModelAndView("/ViewProducts");
-			mv.addObject("error","Cart is Empty");
+			mv.addObject("error","Cart is Empty or Create New Cart");
 			return mv;
 		}
 		mv=new ModelAndView("/User/CreateCart2");
+		log.debug("End of the goGenerateBill");
 		return mv;
 	}
 
 	@RequestMapping("getShippingAddress")
 	public ModelAndView finishCartOrder(@RequestParam("addr1") String addrLine1,@RequestParam("addr2") String addrLine2,@RequestParam("addr3") String addrLine3,@RequestParam("addr4") int addrLine4)
 	{
+		log.debug("Start of the getShippingAddress");
 		Address address=new Address();
 		address.setStreet(addrLine1);
 		address.setCity(addrLine2);
@@ -265,10 +280,13 @@ public class CartController {
 		Cart cart=cartDAO.getCartById((Integer)session.getAttribute("CurrentCartID"));
 		cart.setShippingAddress(address);
 		cart.setCartStatus("Deployed");
+		log.debug("Cart status updated");
 		cartDAO.updateCart(cart);
 		cartDAO.generateBill((Integer)session.getAttribute("CurrentCartID"));
 		ModelAndView mv=new ModelAndView("/Home");
-		return mv;
+		mv.addObject("cartSuccess", "Order Confirmed");
+		log.debug("End of the getShippingAddress");
+		return mv;		
 	}	
 	
 }

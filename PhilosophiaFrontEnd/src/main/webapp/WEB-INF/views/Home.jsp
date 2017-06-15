@@ -41,6 +41,7 @@ width: 100%;
 <jsp:include page="MainHeader.jsp"></jsp:include>
 <center><h1>Welcome to Philosophia</h1></center>
 <br>
+<center>${cartSuccess }</center>
 <center>${msg}</center>
 <br>
 <div id="mid">

@@ -3,33 +3,28 @@ package com.jpro.philosophibackend.dao.impl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.jpro.philosophibackend.dao.CartDAO;
 import com.jpro.philosophibackend.domain.Cart;
-import com.jpro.philosophibackend.domain.Product;
 import com.jpro.philosophibackend.domain.ProductOfCart;
 import com.jpro.philosophibackend.domain.User;
 
 @EnableTransactionManagement
 @Repository("cartDAO")
 public class CartDAOImpl implements CartDAO {
+	
+	private static final Logger log = LoggerFactory.getLogger(CartDAOImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -41,54 +36,70 @@ public class CartDAOImpl implements CartDAO {
 
 	@Transactional
 	public boolean saveCart(Cart cart) {
+		log.debug("Start of saveCart");
 		try
 		{
 		sessionFactory.getCurrentSession().save(cart);
+		log.debug("Cart saved");
+		log.debug("End of saveCart");
 		return true;
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			e.printStackTrace();		
+			log.debug("End of saveCart");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean updateCart(Cart cart) {
+		log.debug("Start of updateCart");
 		try
 		{
 		sessionFactory.getCurrentSession().update(cart);
+		log.debug("Cart updated");
+		log.debug("End of updateCart");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of updateCart");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean deleteCart(Cart cart) {
+		log.debug("Start of deleteCart");
 		try
 		{
 		sessionFactory.getCurrentSession().delete(cart);
+		log.debug("Cart Deleted");
+		log.debug("End of deleteCart");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of deleteCart");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean deleteCart(int cartId) {
+		log.debug("Start of deleteCart");
 		try {
 			sessionFactory.getCurrentSession().delete(getCartById(cartId));
+			log.debug("Cart Deleted");
+			log.debug("End of deleteCart");
 			return true;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
+			log.debug("End of deleteCart");
 			return false;
 		}
 	}
@@ -120,6 +131,7 @@ public class CartDAOImpl implements CartDAO {
 
 	@Transactional
 	public void generateBill(int cartId) {
+		log.debug("Start of generateBill");
 		Cart cart=(Cart) sessionFactory.getCurrentSession().createQuery("from Cart where cartID ='"+ cartId +"'" ).uniqueResult();
 		User user=(User) sessionFactory.getCurrentSession().createQuery("from User where userID='"+cart.getUserId()+"'").uniqueResult();
 		try{
@@ -146,32 +158,36 @@ public class CartDAOImpl implements CartDAO {
 		    }
 		    writerBill.println("Totatl:"+cart.getTotalCost());
 		    writerBill.close();
+		    log.debug("Bill Generated");
 		} catch (IOException e) {
 		  System.err.println(e);
 		}
-		
+		log.debug("End of generateBill");
 	}
 
 	@Transactional
 	public boolean removeProductFromCart(String productID, int cartID) {
+		log.debug("Start of removeProductFromCart");
 		try {
-			
 				String sql="delete from CART_PRODUCTS where CARTID = :cartID and PRODUCTID = :productID";
 				SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(sql);
 				query.setParameter("cartID", cartID);
 				query.setParameter("productID", productID);
 				int i=query.executeUpdate();
-				System.out.println(i);
+				log.debug("Prduct removed from Cart");
+				log.debug("End of removeProductFromCart");
 				return true;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			log.debug("End of removeProductFromCart");
 			return false;
 		}
 	}
 	
 	@Transactional
 	public List<ProductOfCart> getProductsInCart(int cartId) {
+		log.debug("Start of getProductsInCart");
 		String sql="SELECT PRODUCTID, PRODUCTQUANTITY, PRODUCTNAME, PRODUCTCOST AS PRODUCT_CART FROM CART_PRODUCTS WHERE CARTID='"+cartId+ "'";
 		SQLQuery query=sessionFactory.getCurrentSession().createSQLQuery(sql);
 		List<Object> tempList=query.list();
@@ -187,22 +203,25 @@ public class CartDAOImpl implements CartDAO {
 			tempProductOfCart.setProductCost((Integer) obj[3]);
 			returnList.add(i, tempProductOfCart);
 		}
+		log.debug("End of getProductsInCart");
 		return returnList;
 	}
 
 	@Transactional
 	public boolean updateTotalCost(int cartId, int newTotalCost) {
-		try {
-			
+		log.debug("Start of updateTotalCost");
+		try {			
 			String sql="update Cart set totalCost = :newTotalCost where cartID = :cartId";
 			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(sql);
 			query.setParameter("cartId", cartId);
 			query.setParameter("newTotalCost", newTotalCost);
 			query.executeUpdate();
+			log.debug("End of updateTotalCost");
 			return true;
 	}
 	catch (Exception e) {
 		e.printStackTrace();
+		log.debug("End of updateTotalCost");
 		return false;
 	}
 	}

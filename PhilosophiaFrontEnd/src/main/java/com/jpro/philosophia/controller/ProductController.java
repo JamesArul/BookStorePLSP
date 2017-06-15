@@ -33,7 +33,7 @@ public class ProductController {
 	@RequestMapping("selManageProducts")
 	public ModelAndView showProductManage()
 	{
-		log.debug("Start of showProductManage");
+		log.debug("Start of selManageProducts");
 		List<Product> productList=productDAO.getAllProducts();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
 		mv.addObject("prList" ,productList);
@@ -42,7 +42,7 @@ public class ProductController {
 		mv.addObject("CategoryManage", null);
 		mv.addObject("path","F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\");
 		mv.addObject("ProductManage", "ProductManagement");
-		log.debug("End of showProductManage");
+		log.debug("End of selManageProducts");
 		return mv;
 	}
 	
@@ -85,7 +85,7 @@ public class ProductController {
 	@RequestMapping(value="/addProduct")
 	public ModelAndView addProductFunction(@ModelAttribute Product product,HttpServletRequest request,RedirectAttributes attributes)
 	{
-		System.out.println("Inside add Product");
+		System.out.println("Start of addProductFunction");
 		log.debug("Start of addProductFunction");
 		productDAO.saveProduct(product);
 		String path="F:\\EclipseMain\\FinalProject\\Philosophia\\PhilosophiaFrontEnd\\src\\main\\webapp\\Resources\\Images\\";
@@ -100,18 +100,18 @@ public class ProductController {
 			  System.out.println(bytes.length);
 			  FileOutputStream fos=new FileOutputStream(f);
               BufferedOutputStream bs=new BufferedOutputStream(fos);
-              		bs.write(bytes);
-              		bs.close();
-             		System.out.println("File Uploaded Successfully");
+              bs.write(bytes);
+              bs.close();
+             log.debug("Image uploaded Successfully");
 			}
 			catch(Exception e)
 			{
-				System.out.println("Exception Arised"+e);
+				log.debug("Exception encountered in Image Upload");
 			}
 		}
 		else
 		{
-			System.out.println("File is Empty not Uploaded");
+			log.debug("File is Empty not uploaded");
 		}		
 		List<Product> productList=productDAO.getAllProducts();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
@@ -138,6 +138,7 @@ public class ProductController {
 		product.setProductQuantity(pQuantity);
 		product.setProductCost(pCost);
 		productDAO.updateProduct(product);
+		log.debug("Product Edited Successfully");
 		List<Product> productList=productDAO.getAllProducts();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Product());
 		mv.addObject("prList" ,productList);

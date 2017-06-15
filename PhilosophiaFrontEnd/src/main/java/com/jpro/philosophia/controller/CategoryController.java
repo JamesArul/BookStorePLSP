@@ -62,6 +62,7 @@ public class CategoryController {
 	{
 		log.debug("Start of deleteCategory");
 		categoryDAO.deleteCategory(cgID);
+		log.debug("Category deleted Successfully");
 		List<Category> categoryList=categoryDAO.getAllCategory();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
 		mv.addObject("cgList" ,categoryList);
@@ -76,8 +77,9 @@ public class CategoryController {
 	@RequestMapping(value="/addCategory",  method = RequestMethod.POST)
 	public ModelAndView addCategoryFunction(@ModelAttribute Category category)
 	{
-		log.debug("Start of addCategoryFunction");
+		log.debug("Start of addCategory");
 		categoryDAO.saveCategory(category);
+		log.debug("Category added Successfully");
 		List<Category> categoryList=categoryDAO.getAllCategory();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
 		mv.addObject("cgList" ,categoryList);
@@ -85,19 +87,20 @@ public class CategoryController {
 		mv.addObject("editCategoryMsg", null);
 		mv.addObject("SuppierManage", null);
 		mv.addObject("ProductManage", null);		
-		log.debug("End of addCategoryFunction");
+		log.debug("End of addCategory");
 		return mv;
 	}
 	
 	@RequestMapping(value="/editCategory",  method = RequestMethod.POST)
 	public ModelAndView editCategoryFunction(@RequestParam("ctID") String cgID,@RequestParam("categoryName") String cgName,@RequestParam("categoryDescription") String cgDesc)
 	{
-		log.debug("Start of editCategoryFunction");
+		log.debug("Start of editCategory");
 		Category category=new Category();
 		category.setCategoryId(cgID);
 		category.setCategoryName(cgName);
 		category.setCategoryDescription(cgDesc);
 		categoryDAO.updateCategory(category);
+		log.debug("Category edited Successfully");
 		List<Category> categoryList=categoryDAO.getAllCategory();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Category());
 		mv.addObject("cgList" ,categoryList);
@@ -105,7 +108,7 @@ public class CategoryController {
 		mv.addObject("editCategoryMsg", null);
 		mv.addObject("SuppierManage", null);
 		mv.addObject("ProductManage", null);
-		log.debug("End of editCategoryFunction");
+		log.debug("End of editCategory");
 		return mv;
 	}
 	

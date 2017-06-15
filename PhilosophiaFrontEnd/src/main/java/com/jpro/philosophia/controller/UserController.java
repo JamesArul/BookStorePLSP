@@ -10,8 +10,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jpro.philosophibackend.dao.CartDAO;
 import com.jpro.philosophibackend.dao.UserDAO;
 import com.jpro.philosophibackend.domain.User;
 
@@ -29,6 +31,9 @@ public class UserController {
 	@Autowired
 	public User user;
 	
+	@Autowired
+	public CartDAO cartDAO;
+	
 	@RequestMapping("/goRegister")
 	public ModelAndView showRegister()
 	{
@@ -41,8 +46,7 @@ public class UserController {
 	@RequestMapping("/addUser")
 	public String insertUser(@ModelAttribute User user, BindingResult bindingResult , ModelMap model)
 	{
-		log.debug("Start of method insertUser");
-		
+		log.debug("Start of method insertUser");		
 		if(bindingResult.hasErrors())
 		{
 			log.debug("End of method insertUser : User Not Registered");
@@ -52,9 +56,45 @@ public class UserController {
 		{
 			user.setUserRole("ROLE_USER");
 			userDAO.saveUser(user);
+			log.debug("User added Successfully");
 			log.debug("End of method insertUser");
-			return "/Home";
+			return "/Login";
 		}
 	}
 	
+	@RequestMapping("/goModifyUser")
+	public ModelAndView goModifyUser()
+	{
+		log.debug("Start of method goModifyUser");
+		ModelAndView mv=new ModelAndView("/User/ModifyUser");
+		mv.addObject("currentUser",userDAO.getUserById((String) session.getAttribute("UserID")));
+		log.debug("End of method goModifyUser");
+		return mv;
+	}
+	
+	@RequestMapping("/editUser")
+	public ModelAndView modifyUserDetails(@RequestParam("uID")String userID,@RequestParam("userName")String userName,@RequestParam("userEmail")String userEmail,@RequestParam("userPassword")String userPassword,@RequestParam("userContact")long userContact)
+	{
+		log.debug("Start of method modifyUserDetails");
+		ModelAndView mv=new ModelAndView("/Home");
+		User user=new User();
+		user=userDAO.getUserById(userID);
+		user.setUserName(userName);
+		user.setUserEmail(userEmail);
+		user.setUserPassword(userPassword);
+		user.setUserContact(userContact);
+		userDAO.updateUser(user);
+		log.debug("User Details Modified");
+		mv.addObject("msg","User Details Modified");
+		log.debug("End of method modifyUserDetails");
+		return mv;
+	}
+	
+	@RequestMapping("/goAllMyCart")
+	public ModelAndView viewAllMyCarts(){
+		ModelAndView mv=new ModelAndView("/User/DisplayUserCarts");
+		String user_Id=(String) session.getAttribute("UserID");
+		mv.addObject("cartUser",cartDAO.getCartsOfUser(user_Id));
+		return mv;
+	}
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,6 +17,8 @@ import com.jpro.philosophibackend.domain.User;
 @EnableTransactionManagement
 @Repository("userDAO")
 public class UserDAOImpl implements UserDAO {
+	
+	private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -31,54 +35,66 @@ public class UserDAOImpl implements UserDAO {
 
 	@Transactional
 	public boolean saveUser(User user) {
+		log.debug("Start of saveUser");
 		try
 		{
 		sessionFactory.getCurrentSession().save(user);
+		log.debug("End of saveUser");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of saveUser");
 			return false;
 		}	
 	}
 
 	@Transactional
 	public boolean updateUser(User user) {
+		log.debug("Start of updateUser");
 		try
 		{
 		sessionFactory.getCurrentSession().update(user);
+		log.debug("End of updateUser");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of updateUser");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean deleteUser(User user) {
+		log.debug("Start of deleteUser");
 		try
 		{
 		sessionFactory.getCurrentSession().delete(user);
+		log.debug("End of deleteUser");
 		return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			log.debug("End of deleteUser");
 			return false;
 		}
 	}
 
 	@Transactional
 	public boolean deleteUser(String userId) {
+		log.debug("Start of deleteUser");
 		try {
 			sessionFactory.getCurrentSession().delete(getUserById(userId));
+			log.debug("End of deleteUser");
 			return true;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
+			log.debug("End of deleteUser");
 			return false;
 		}
 	}

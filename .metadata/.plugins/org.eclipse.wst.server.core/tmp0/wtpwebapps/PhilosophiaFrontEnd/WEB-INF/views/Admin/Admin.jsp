@@ -7,8 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link  rel="stylesheet" href="Resources/Bootstrap/bootstrap.min.css">
-<script src="Resources/Bootstrap/bootstrap.js"></script>
-<script src="Resources/JQuery/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="Resources/Bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="Resources/JQuery/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 function manageCategories()
 {
@@ -30,13 +30,13 @@ function manageSuppliers()
 <center>
 <div class="row">
 <div class="col-sm-4">
-<button type="button" class="btn" onclick="manageCategories()">Manage Categories</button>
+<button type="button" class="btn btn-success" onclick="manageCategories()">Manage Categories</button>
 </div>
 <div class="col-sm-4">
-<button type="button" class="btn" onclick="manageProducts()">Manage Products</button>
+<button type="button" class="btn btn-success" onclick="manageProducts()">Manage Products</button>
 </div>
 <div class="col-sm-4">
-<button type="button" class="btn" onclick="manageSuppliers()">Manage Suppliers</button>
+<button type="button" class="btn btn-success" onclick="manageSuppliers()">Manage Suppliers</button>
 </div>
 </div>
 </center>

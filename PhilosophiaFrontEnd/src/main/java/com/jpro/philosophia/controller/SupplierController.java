@@ -58,10 +58,11 @@ Logger log = LoggerFactory.getLogger(CategoryController.class);
 	}
 	
 	@RequestMapping("/deleteSupplier")
-	public ModelAndView deleteCategory(@RequestParam("supDeleteID") String spID)
+	public ModelAndView deleteSupplier(@RequestParam("supDeleteID") String spID)
 	{
-		log.debug("Start of deleteCategory");
+		log.debug("Start of deleteSupplier");
 		supplierDAO.deleteSupplier(spID);
+		log.debug("Supplier Deleted");
 		List<Supplier> supplierList=supplierDAO.getAllSupplier();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Supplier());
 		mv.addObject("spList" ,supplierList);
@@ -69,7 +70,7 @@ Logger log = LoggerFactory.getLogger(CategoryController.class);
 		mv.addObject("editSupplierMsg", null);
 		mv.addObject("CategoryManage", null);
 		mv.addObject("ProductManage", null);
-		log.debug("End of deleteCategory");
+		log.debug("End of deleteSupplier");
 		return mv;
 	}
 	
@@ -104,6 +105,7 @@ Logger log = LoggerFactory.getLogger(CategoryController.class);
 		addr.setPincode(spPincode);
 		supplier.setSupplierAddress(addr);
 		supplierDAO.updateSupplier(supplier);
+		log.debug("Supplier edited Successsfully");
 		List<Supplier> supplierList=supplierDAO.getAllSupplier();
 		ModelAndView mv=new ModelAndView("/Admin/Admin","command", new Supplier());
 		mv.addObject("spList" ,supplierList);

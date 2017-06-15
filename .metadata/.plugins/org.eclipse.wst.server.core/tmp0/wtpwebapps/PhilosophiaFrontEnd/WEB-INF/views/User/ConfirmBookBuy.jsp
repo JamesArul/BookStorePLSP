@@ -42,7 +42,7 @@ width : 300px;
 <input type="submit" value="Add to Cart" class="btn btn-primary" />
 </div>
 <div ng-if="quantity > Available_Quantity">
-<h2><center>Stock Limit Reached</center></h2>
+<h2><center>Over Stock Limit</center></h2>
 </div>
 </form>
 </center>

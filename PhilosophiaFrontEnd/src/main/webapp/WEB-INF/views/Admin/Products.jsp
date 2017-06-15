@@ -7,8 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link  rel="stylesheet" href="Resources/Bootstrap/bootstrap.min.css">
-<script src="Resources/Bootstrap/bootstrap.js"></script>
-<script src="Resources/JQuery/jquery-3.1.1.min.js"></script>
 <title>Admin : Manage Products</title>
 </head>
 <body>

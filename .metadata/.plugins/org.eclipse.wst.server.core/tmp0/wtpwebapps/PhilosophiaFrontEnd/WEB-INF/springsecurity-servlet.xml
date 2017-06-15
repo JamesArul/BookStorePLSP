@@ -25,6 +25,8 @@
 <security:intercept-url pattern="/getShippingAddress**" access="hasRole('ROLE_USER')"/>
 <security:intercept-url pattern="/addConfirmProduct**" access="hasRole('ROLE_USER')"/>
 <security:intercept-url pattern="/goGenerateBill" access="hasRole('ROLE_USER')"/>
+<security:intercept-url pattern="/goModifyUser" access="hasRole('ROLE_USER')"/>
+<security:intercept-url pattern="/editUser" access="hasRole('ROLE_USER')"/>
 <security:access-denied-handler error-page="/accessDenied"/>
 <security:csrf/>
 <security:form-login login-page="/goLogin" login-processing-url="/j_spring_security_check" default-target-url="/user_validate" authentication-failure-url="/loginError" username-parameter="username" password-parameter="password"/>

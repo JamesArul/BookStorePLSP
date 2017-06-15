@@ -30,7 +30,6 @@ import com.jpro.philosophibackend.domain.User;
 public class SpringSecurityController {
 
 	public static Logger log = LoggerFactory.getLogger(SpringSecurityController.class);
-
 	
 	@Autowired
 	private HttpSession session;
@@ -94,6 +93,7 @@ public class SpringSecurityController {
 		    List<Cart> cartsOfUser=userDAO.getCartsOfUser(userid);
 		    if(cartsOfUser.isEmpty())
 		    {
+		    	log.debug("No Cart Present for User");
 		    	session.setAttribute("CurrentCartID", null);
 		    }
 		    else
@@ -105,6 +105,7 @@ public class SpringSecurityController {
 					{
 						innerCart = iter.next();
 					}
+			    	log.debug("Cart obtained for User");
 					session.setAttribute("CurrentCartID", innerCart.getCartID());
 		    }
 		}

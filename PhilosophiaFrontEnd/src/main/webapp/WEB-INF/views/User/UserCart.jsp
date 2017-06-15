@@ -8,6 +8,7 @@
 <link  rel="stylesheet" href="Resources/Bootstrap/bootstrap.min.css">
 <script src="Resources/Bootstrap/bootstrap.js"></script>
 <script src="Resources/JQuery/jquery-3.1.1.min.js"></script>
+<script src="Resources/AngularJS/angular.min.js"></script>
 <title>View User Cart</title>
 <script type="text/javascript">
 function generateCartBill()
@@ -19,6 +20,7 @@ function generateCartBill()
 <body>
 <jsp:include page="..\MainHeader.jsp"></jsp:include>
  <div class="container">
+ <div ng-app>
   <h2>Books in Cart</h2>
   <h2>${ msg }</h2>          
   <table class="table table-bordered">
@@ -27,7 +29,8 @@ function generateCartBill()
         <th>Product Id</th>
         <th>Product Name</th>
         <th>Product Quantity</th>
-        <th>Product Cost</th>
+        <th>Product Cost</th>       
+        <th>Sub Cost</th> 
         <th>Edit/Remove</th>
       </tr>
     </thead>
@@ -38,10 +41,11 @@ function generateCartBill()
         <td><c:out value="${pList.productName}" /></td>
         <td><c:out value="${pList.productQuantity}" /></td>
         <td><c:out value="${pList.productCost}" /></td>
+        <td>${pList.productQuantity * pList.productCost}</td>
         <td>
         <form action="removeProdFromCart"> 
         <input type="hidden" id="prID" name="prID" value="${pList.productId}"><br>
-        <input type="submit" value="Remove from Cart"> 
+        <input type="submit" class="btn btn-danger" value="Remove from Cart"> 
         </form>
         </td>
       </tr>
@@ -53,6 +57,7 @@ function generateCartBill()
 <h1>Total Cost : ${ totalCostOfCart } </h1>
 <button type="button" class="btn btn-primary" id="genBill" onclick="generateCartBill()">Generate Bill</button>
 </center>
+</div>
     <jsp:include page="..\MainFooter.jsp"></jsp:include>
 </body>
 </html>
